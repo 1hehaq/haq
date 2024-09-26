@@ -1,7 +1,24 @@
-![Screenshot (396)](https://github.com/user-attachments/assets/c5da3434-b021-4767-b470-6f3bf48fbb8a)
-# Lostxlso: Multi-Vulnerability Scanner
+<div align="center">
+   <img src="https://github.com/user-attachments/assets/bd92be5c-3e52-43f7-a691-3950e8a3061a" hight="200" width="400" align="center"/>
+</div>
 
-**Lostxlso** is a powerful and versatile multi-vulnerability scanner designed to detect various web application vulnerabilities, including Local File Inclusion (LFI), Open Redirects (OR), SQL Injection (SQLi), and Cross-Site Scripting (XSS). This tool was created by **AnonKryptiQuz**, **Coffinxp**, **Hexsh1dow**, and **Naho**.
+<br>
+<br>
+<br>
+
+<div align="center">
+   
+|Loxs|Multi Vulnerability Scanner|for web application|
+|----------------|--------------|-------------|
+| `L`| `=`| `Local File Inclusion (LFI)`|
+| `O`| `=`| `Open Redirection (OR)`|
+| `X`| `=`| `Cross Site Scripting (XSS)`|
+| `S`| `=`| `Structured Query Language Injection (SQLi)`|
+</div>
+   
+----
+> **Loxs** is an easy-to-use tool that finds web issues like `LFI` - `OR` - `SQLi` - `XSS`. <br><br> *`Made by`* - [`AnonKryptiQuz`](https://github.com/AnonKryptiQuz) x [`Coffinxp`](https://github.com/coffinxp) x [`HexShad0w`](https://github.com/HexShad0w) x [`Naho`](https://github.com/Naho666) x [`1hehaq`](https://github.com/1hehaq)!
+----
 
 ## Features
 
@@ -14,6 +31,9 @@
 - **Success criteria**: Modify success detection criteria for specific use cases.
 - **User-friendly command-line interface**: Simple and intuitive.
 - **Save vulnerable URLs**: Option to save the results of vulnerable URLs to a file.
+- **HTML Report Generation**: Generates a detailed HTML report about the found vulnerabilities.
+- **Share HTML Report via Telegram**: Send the HTML vulnerability report through telegram.
+
 
 ## Requirements
 
@@ -29,21 +49,23 @@
 - `prompt_toolkit`
 - `pyyaml`
 - `Flask`
+- `html`
+- `telegram`
 
 ## Installation
 
 ### Clone the repository
 
 ```bash
-git clone https://github.com/coffinxp/lostools
-cd lostools
+git clone https://github.com/1hehaq/loxs.git
+cd loxs
 ```
 ## Running the Script
 
 To run the script, use the following command:
 
 ```bash
-python lostsec.py
+python loxs.py
 ```
 to update the tool to the latest version
 ```bash
