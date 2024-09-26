@@ -115,7 +115,7 @@ try:
             print(border_color + "│" + option_color + option.ljust(59) + border_color + "│")
         
         print(border_color + "└" + "─" * 61 + "┘")
-        authors = "Created by: Coffinxp, HexSh1dow, Naho and AnonKryptiQuz "
+        authors = "Created by: Coffinxp, 1hehaq, HexSh1dow, Naho, AnonKryptiQuz"
         instructions = "Select an option by entering the corresponding number:"
         
         print(Fore.WHITE + Style.BRIGHT + "─" * 63)
@@ -134,7 +134,7 @@ try:
 |______/|___  |_____||______/|___  |_____|
         |_____|              |_____|      
    
-  Credit -  Coffinxp - HexSh1dow - AnonKryptiQuz - Naho
+  Credit -  Coffinxp - 1hehaq - HexSh1dow - AnonKryptiQuz - Naho
             """,
             style="bold green",
             border_style="blue",
@@ -293,12 +293,12 @@ try:
                             print(f"{Fore.RED}[!] You must provide either a file with URLs or a single URL.")
                             input(f"{Fore.YELLOW}\n[i] Press Enter to try again...")
                             clear_screen()
-                            print(f"{Fore.GREEN}Welcome to the Loxs SQL-Injector! - Coffinxp - HexSh1dow - AnonKryptiQuz - Naho\n")
+                            print(f"{Fore.GREEN}Welcome to the Loxs SQL-Injector! - Coffinxp - 1hehaq- HexSh1dow - AnonKryptiQuz - Naho\n")
                 except Exception as e:
                     print(f"{Fore.RED}[!] Error reading input file: {url_input}. Exception: {str(e)}")
                     input(f"{Fore.YELLOW}[i] Press Enter to try again...")
                     clear_screen()
-                    print(f"{Fore.GREEN}Welcome to the Loxs SQL-Injector! - Coffinxp - HexSh1dow - AnonKryptiQuz - Naho\n")
+                    print(f"{Fore.GREEN}Welcome to the Loxs SQL-Injector! - Coffinxp - 1hehaq - HexSh1dow - AnonKryptiQuz - Naho\n")
 
         def prompt_for_payloads():
             while True:
@@ -313,7 +313,7 @@ try:
                     print(f"{Fore.RED}[!] Error reading payload file: {payload_input}. Exception: {str(e)}")
                     input(f"{Fore.YELLOW}[i] Press Enter to try again...")
                     clear_screen()
-                    print(f"{Fore.GREEN}Welcome to the Loxs SQL-Injector! - Coffinxp - HexSh1dow - AnonKryptiQuz - Naho\n")
+                    print(f"{Fore.GREEN}Welcome to the Loxs SQL-Injector! - Coffinxp - 1hehaq - HexSh1dow - AnonKryptiQuz - Naho\n")
 
         def print_scan_summary(total_found, total_scanned, start_time):
             print(f"{Fore.YELLOW}\n[i] Scanning finished.")
@@ -720,12 +720,12 @@ try:
                             print(Fore.RED + "[!] You must provide either a file with URLs or a single URL.")
                             input(Fore.YELLOW + "\n[i] Press Enter to try again...")
                             clear_screen()
-                            print(Fore.GREEN + "Welcome to the Loxs XSS-Scanner! - Coffinxp - HexSh1dow - AnonKryptiQuz - Naho\n")
+                            print(Fore.GREEN + "Welcome to the Loxs XSS-Scanner! - Coffinxp - 1hehaq - HexSh1dow - AnonKryptiQuz - Naho\n")
                 except Exception as e:
                     print(Fore.RED + f"[!] Error reading input file: {url_input}. Exception: {str(e)}")
                     input(Fore.YELLOW + "[i] Press Enter to try again...")
                     clear_screen()
-                    print(Fore.GREEN + "Welcome to the Loxs XSS-Scanner! - Coffinxp - HexSh1dow - AnonKryptiQuz - Naho\n")
+                    print(Fore.GREEN + "Welcome to the Loxs XSS-Scanner! - Coffinxp - 1hehaq - HexSh1dow - AnonKryptiQuz - Naho\n")
 
         def prompt_for_valid_file_path(prompt_text):
             while True:
@@ -734,7 +734,7 @@ try:
                     print(f"{Fore.RED}[!] You must provide a file containing the Payloads.")
                     input(f"{Fore.YELLOW}[i] Press Enter to try again...")
                     clear_screen()
-                    print(f"{Fore.GREEN}Welcome to the Loxs XSS-Scanner! - Coffinxp - HexSh1dow - AnonKryptiQuz - Naho\n")
+                    print(f"{Fore.GREEN}Welcome to the Loxs XSS-Scanner! - Coffinxp - 1hehaq - HexSh1dow - AnonKryptiQuz - Naho\n")
                     continue
                 if os.path.isfile(file_path):
                     return file_path
@@ -742,7 +742,7 @@ try:
                     print(f"{Fore.RED}[!] Error reading input file: {file_path}.")
                     input(f"{Fore.YELLOW}[i] Press Enter to try again...")
                     clear_screen()
-                    print(f"{Fore.GREEN}Welcome to the Loxs XSS-Scanner! - Coffinxp - HexSh1dow - AnonKryptiQuz - Naho\n")
+                    print(f"{Fore.GREEN}Welcome to the Loxs XSS-Scanner! - Coffinxp - 1hehaq - HexSh1dow - AnonKryptiQuz - Naho\n")
 
         def main():
             clear_screen()
@@ -1105,7 +1105,7 @@ try:
                     print(Fore.RED + f"[!] Error reading input file: {url_input}. Exception: {str(e)}")
                     input(Fore.YELLOW + "[i] Press Enter to try again...")
                     clear_screen()
-                    print(Fore.GREEN + "Welcome to the LFI Testing Tool! -AnonKryptiQuz x Coffinxp x Hexsh1dow x Naho\n")
+                    print(Fore.GREEN + "Welcome to the LFI Testing Tool! - AnonKryptiQuz x 1hehaq x Coffinxp x Hexsh1dow x Naho\n")
 
         def prompt_for_payloads():
             while True:
