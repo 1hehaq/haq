@@ -7,7 +7,7 @@
 <br>
 <br>
 
-<div align="center">
+<div align="left">
    
 |Loxs|Multi Vulnerability Scanner|for web application|
 |----------------|--------------|-------------|
