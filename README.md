@@ -94,22 +94,35 @@ Lostxlso allows for various levels of customization to fit your specific testing
 
 ## Chrome Installation Instructions
 
-1. Launch Terminal.
+▷ Launch Terminal. <br>
+▷ Download the Google Chrome .deb file:
 
-2. Download the Google Chrome .deb file: wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+```bash
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+```
 
-3. Install the downloaded Google Chrome .deb file: sudo dpkg -i google-chrome-stable_current_amd64.deb
+▷ Install the downloaded Google Chrome .deb file:
 
-4. Enter your Ubuntu/kali user password.
+```bash
+sudo dpkg -i google-chrome-stable_current_amd64.deb
+```
 
-5. If you come across some errors during the install, use the following command and flag:
+▷ Enter your Ubuntu/kali user password.
+▷ If you come across some errors during the install, use the following command and flag:
 
-   sudo apt -f install
+```bash
+sudo apt -f install
+```
 
-   after this again enter this sudo dpkg -i google-chrome-stable_current_amd64.de
+▷ after this again enter this
 
-   Done
+```bash
+sudo dpkg -i google-chrome-stable_current_amd64.deb
+```
+▷ Done
+
+<hr>
 
 ## Disclaimer
 
-Lostxlso is intended for educational and ethical hacking purposes only. It should only be used to test systems you own or have explicit permission to test. Unauthorized use of third-party websites or systems without consent is illegal and unethical.
+Loxs is intended for educational and ethical hacking purposes only. It should only be used to test systems you own or have explicit permission to test. Unauthorized use of third-party websites or systems without consent is illegal and unethical.
