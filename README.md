@@ -7,7 +7,7 @@
 <br>
 <br>
 
-<div align="left">
+<div align="center">
    
 |Loxs|Multi Vulnerability Scanner|for web application|
 |----------------|--------------|-------------|
@@ -15,11 +15,14 @@
 | `O`| `=`| `Open Redirection (OR)`|
 | `X`| `=`| `Cross Site Scripting (XSS)`|
 | `S`| `=`| `Structured Query Language Injection (SQLi)`|
-</div>
-   
-----
+
 > **Loxs** is an easy-to-use tool that finds web issues like `LFI` - `OR` - `SQLi` - `XSS`. <br><br> *`Made by`* - [`AnonKryptiQuz`](https://github.com/AnonKryptiQuz) x [`Coffinxp`](https://github.com/coffinxp) x [`HexShad0w`](https://github.com/HexShad0w) x [`Naho`](https://github.com/Naho666) x [`1hehaq`](https://github.com/1hehaq)!
-----
+
+</div>
+
+<br>
+<br>
+<br>
 
 ## Features
 
