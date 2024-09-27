@@ -20,9 +20,12 @@
 
 </div>
 
+<hr>
+
 <br>
 <br>
 <br>
+
 
 ## Features
 | Feature                          | Description                                                                 |
