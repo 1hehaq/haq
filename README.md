@@ -1,4 +1,3 @@
-<div align="left">
 <div align="center">
    <a href="https://github.com/1hehaq/loxs"><img src="https://github.com/user-attachments/assets/f77ffb67-9d8f-4d7b-9cd2-847158cf4d64" hight="300" width="600" align="center"/></a>
 </div>
@@ -140,7 +139,6 @@ sudo dpkg -i google-chrome-stable_current_amd64.deb
 - All Done
 
 <hr>
-</div>
 
 ## Disclaimer
 
