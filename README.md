@@ -61,6 +61,9 @@
 |`html`|
 |`telegram`|
 
+<br>
+<br>
+
 ## Installation
 
 ### Clone the repository
