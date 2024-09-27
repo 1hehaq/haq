@@ -27,8 +27,7 @@
 <br>
 
 
-## Features
-| Feature                          | Description                                                                 |
+| Features                          | About                                                                       |
 |-----------------------------------|-----------------------------------------------------------------------------|
 | `LFI Scanner`                     | Detect Local File Inclusion vulnerabilities.                                |
 | `OR Scanner`                      | Identify Open Redirect vulnerabilities.                                     |
@@ -43,27 +42,16 @@
 | `Share HTML Report via Telegram`  | Share HTML vulnerability reports directly through Telegram.                 |
 
 <br>
+<hr>
 <br>
 <br>
 
-|****Requirements****|
-|----------|
-|`Python 3.x`|
-|`webdriver_manager`|
-|`selenium`|
-|`aiohttp`|
-|`beautifulsoup4`|
-|`colorama`|
-|`rich`|
-|`requests`|
-|`gitpython`|
-|`prompt_toolkit`|
-|`pyyaml`|
-|`Flask`|
-|`html`|
-|`telegram`|
+| Language                          | Packages                                                                    |
+|-----------------------------------|-----------------------------------------------------------------------------|
+| ***Python***| `Python 3.x` `webdriver_manager` `selenium` `aiohttp` `beautifulsoup4` `colorama` `rich` `requests` `gitpython` `prompt_toolkit` `pyyaml` `Flask` `html` `python-telegram-bot`|
 
 <br>
+<hr>
 <br>
 
 ## Installation
