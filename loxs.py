@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
-TELEGRAM_CHAT_ID = None
-TELEGRAM_BOT_TOKEN = None
+TELEGRAM_BOT_TOKEN = ""
+TELEGRAM_CHAT_ID = ""
 
 class Color:
     BLUE = '\033[94m'
@@ -51,8 +51,6 @@ try:
     import concurrent.futures
     import time
     import aiohttp
-    import telegram
-    import html
     from selenium import webdriver
     from selenium.webdriver.chrome.service import Service as ChromeService
     from selenium.webdriver.common.by import By
@@ -88,14 +86,15 @@ try:
 
     def display_menu():
         title = r"""
-.____.          ____  ___                
-|    |    _____ \   \/  /  ______
-|    |   /     \ \     /  /  ___/
-|    |__(   O  / /     \  \___  \
-|_______/\____/ /___/\  \ /_____/ 
-                      \_/                 
+                .____.          ____  ___                
+                |    |    _____ \   \/  /  ______
+                |    |   /     \ \     /  /  ___/
+                |    |__(   O  / /     \  \___  \
+                |_______/\____/ /___/\  \ /_____/ 
+                                      \_/                 
     """
         print(Color.ORANGE + Style.BRIGHT + title.center(63))
+        print(Fore.YELLOW + load_telegram_credentials().center(63))
         print(Fore.WHITE + Style.BRIGHT + "─" * 63)
         border_color = Color.CYAN + Style.BRIGHT
         option_color = Fore.WHITE + Style.BRIGHT  
@@ -144,68 +143,508 @@ try:
         rich_print(panel)
         print(Color.RED + "\n\nSession Off..\n")
         exit()
-
-
-    def telegram_integration():
+        
+    def load_telegram_credentials():
         global TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
+        
+        if TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID:
+            return "Loaded saved Telegram credentials."
+        else:
+            return "No saved Telegram credentials found."
+        
 
-        def telegram_credentials():
-            global TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
-            if not TELEGRAM_BOT_TOKEN: 
-                TELEGRAM_BOT_TOKEN = input(f"{Fore.CYAN}[?] Enter your Telegram Bot Token: ").strip()
-            if not TELEGRAM_CHAT_ID:
-                TELEGRAM_CHAT_ID = input(f"{Fore.CYAN}[?] Enter your Telegram Chat ID: ").strip()
-
-            save_creds = input(f"{Fore.CYAN}[?] Do you want to save the credentials for future use? (y/n): ").strip().lower()
-            if save_creds == "y":
-                with open (__file__, 'r') as f:
-                    content = file.read()
-                content = content.replace("TELEGRAM_BOT_TOKEN = None", f"TELEGRAM_BOT_TOKEN = '{TELEGRAM_BOT_TOKEN}'")
-                content = content.replace("TELEGRAM_CHAT_ID = None", f"TELEGRAM_CHAT_ID = '{TELEGRAM_CHAT_ID}'")
-                with open(__file__, 'w') as file:
-                    file.write(content)
-                print(f"{Fore.GREEN}[+] Successfully credentials saved for future use!")
-
-    def generate_html_report(scan_type, vulnerable_urls):
+    def save_telegram_credentials(bot_token, chat_id):
+        global TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
+        TELEGRAM_BOT_TOKEN = bot_token
+        TELEGRAM_CHAT_ID = chat_id
+        
+        with open(__file__, 'r') as file:
+            content = file.read()
+        
+        content = re.sub(r'TELEGRAM_BOT_TOKEN = ".*"', f'TELEGRAM_BOT_TOKEN = "{bot_token}"', content)
+        content = re.sub(r'TELEGRAM_CHAT_ID = ".*"', f'TELEGRAM_CHAT_ID = "{chat_id}"', content)
+        
+        with open(__file__, 'w') as file:
+            file.write(content)
+        
+        print(f"{Fore.GREEN}[✔] Credentials saved successfully!")
+        
+    def generate_html_report(scan_type, total_found, total_scanned, time_taken, vulnerable_urls):
         html_content = f"""
-        <html>
+        <!DOCTYPE html>
+        <html lang="en">
         <head>
-            <title>{scan_type} Vulnerability Report</title>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Loxs Security Scan Report</title>
             <style>
-            body  {{ font-family: Consolas, monospace; }}
-            h1 {{ color: #333; }}
-            ul {{ list-style-type: none; padding: 0; }}
-            li {{ margin-bottom: 10px;  }}
-            .vulnerable {{ color: red; }}
+                @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+                
+                :root {{
+                    --primary-color: #ff7f50;
+                    --secondary-color: #6e44ff;
+                    --accent-color: #5dc05d;
+                    --background-color: #000;
+                    --container-bg: rgba(0, 20, 40, 0.8);
+                }}
+                
+                body {{
+                    font-family: 'Share Tech Mono', monospace;
+                    line-height: 1.6;
+                    color: var(--primary-color);
+                    background-color: var(--background-color);
+                    margin: 0;
+                    padding: 0;
+                    overflow-x: hidden;
+                    background-image: 
+                        linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+                    background-size: 20px 20px;
+                    animation: backgroundScroll 20s linear infinite;
+                }}
+                @keyframes backgroundScroll {{
+                    0% {{ background-position: 0 0; }}
+                    100% {{ background-position: 0 20px; }}
+                }}
+                .container {{
+                    max-width: 900px;
+                    margin: 2rem auto;
+                    padding: 2rem;
+                    background-color: var(--container-bg);
+                    box-shadow: 0 0 20px var(--primary-color);
+                    border-radius: 10px;
+                    position: relative;
+                    overflow: hidden;
+                    border: 1px solid var(--primary-color);
+                }}
+                .container::before {{
+                    content: "";
+                    position: absolute;
+                    top: -50%;
+                    left: -50%;
+                    width: 200%;
+                    height: 200%;
+                    background: repeating-linear-gradient(
+                        0deg,
+                        transparent,
+                        transparent 2px,
+                        rgba(0, 255, 255, 0.1) 2px,
+                        rgba(0, 255, 255, 0.1) 4px
+                    );
+                    animation: scan 10s linear infinite;
+                    pointer-events: none;
+                    z-index: -1;
+                }}
+                @keyframes scan {{
+                    0% {{ transform: translateY(0); }}
+                    100% {{ transform: translateY(50%); }}
+                }}
+                .animated-text {{
+                    position: relative;
+                    display: inline-block;
+                    font-size: 2.5rem;
+                    font-weight: bold;
+                    text-transform: uppercase;
+                    letter-spacing: 4px;
+                    color: var(--secondary-color);
+                    text-shadow: 0 0 10px var(--secondary-color);
+                    margin-bottom: 1rem;
+                    width: 100%;
+                    text-align: center;
+                }}
+                .animated-text::before,
+                .animated-text::after {{
+                    content: attr(data-text);
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    z-index: -1;
+                }}
+                .animated-text::before {{
+                    color: var(--accent-color);
+                    animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+                }}
+                .animated-text::after {{
+                    color: var(--primary-color);
+                    animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
+                }}
+                @keyframes glitch {{
+                    0% {{ transform: translate(0); }}
+                    20% {{ transform: translate(-2px, 2px); }}
+                    40% {{ transform: translate(-2px, -2px); }}
+                    60% {{ transform: translate(2px, 2px); }}
+                    80% {{ transform: translate(2px, -2px); }}
+                    100% {{ transform: translate(0); }}
+                }}
+                .logo {{
+                    text-align: center;
+                    margin-bottom: 2rem;
+                }}
+                .logo svg {{
+                    max-width: 300px;
+                    height: auto;
+                }}
+                .summary {{
+                    background-color: rgba(0, 40, 80, 0.6);
+                    padding: 1.5rem;
+                    border-radius: 8px;
+                    margin-bottom: 2rem;
+                    border: 1px solid var(--primary-color);
+                    box-shadow: 0 0 10px var(--primary-color);
+                }}
+                .summary-item {{
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 0.5rem;
+                    border-bottom: 1px solid rgba(0, 255, 255, 0.3);
+                    padding-bottom: 0.5rem;
+                }}
+                .summary-label {{
+                    font-weight: bold;
+                    color: var(--accent-color);
+                }}
+                .summary-value {{
+                    color: var(--primary-color);
+                }}
+                .progress-bar {{
+                    width: 100%;
+                    height: 20px;
+                    background-color: rgba(0, 255, 255, 0.1);
+                    border-radius: 10px;
+                    overflow: hidden;
+                    margin-bottom: 1rem;
+                }}
+                .progress {{
+                    width: {(total_found / total_scanned) * 100}%;
+                    height: 100%;
+                    background-color: var(--secondary-color);
+                    animation: pulse 2s infinite;
+                }}
+                @keyframes pulse {{
+                    0% {{ opacity: 0.6; }}
+                    50% {{ opacity: 1; }}
+                    100% {{ opacity: 0.6; }}
+                }}
+                .stats-grid {{
+                    display: grid;
+                    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                    gap: 1rem;
+                    margin-bottom: 2rem;
+                }}
+                .stat-card {{
+                    background-color: rgba(0, 40, 80, 0.6);
+                    padding: 1rem;
+                    border-radius: 8px;
+                    text-align: center;
+                    border: 1px solid var(--primary-color);
+                    transition: all 0.3s ease;
+                }}
+                .stat-card:hover {{
+                    transform: translateY(-5px);
+                    box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+                }}
+                .stat-value {{
+                    font-size: 2rem;
+                    font-weight: bold;
+                    color: var(--accent-color);
+                }}
+                .stat-label {{
+                    font-size: 0.9rem;
+                    color: var(--primary-color);
+                }}
+                .timeline {{
+                    position: relative;
+                    max-width: 1200px;
+                    margin: 2rem auto;
+                }}
+                .timeline::after {{
+                    content: '';
+                    position: absolute;
+                    width: 6px;
+                    background-color: var(--primary-color);
+                    top: 0;
+                    bottom: 0;
+                    left: 50%;
+                    margin-left: -3px;
+                }}
+                .timeline-item {{
+                    padding: 10px 40px;
+                    position: relative;
+                    background-color: inherit;
+                    width: 50%;
+                }}
+                .timeline-item::after {{
+                    content: '';
+                    position: absolute;
+                    width: 25px;
+                    height: 25px;
+                    right: -17px;
+                    background-color: var(--background-color);
+                    border: 4px solid var(--accent-color);
+                    top: 15px;
+                    border-radius: 50%;
+                    z-index: 1;
+                }}
+                .left {{
+                    left: 0;
+                }}
+                .right {{
+                    left: 50%;
+                }}
+                .right::after {{
+                    left: -16px;
+                }}
+                .timeline-content {{
+                    padding: 20px 30px;
+                    background-color: rgba(0, 40, 80, 0.6);
+                    position: relative;
+                    border-radius: 6px;
+                }}
+                .vulnerable-item {{
+                    background-color: rgba(255, 0, 0, 0.2);
+                    border: 1px solid #f00;
+                    color: #f00;
+                    padding: 1rem;
+                    margin-bottom: 1rem;
+                    border-radius: 4px;
+                    word-break: break-all;
+                    box-shadow: 0 0 10px #f00;
+                    transition: all 0.3s ease;
+                    position: relative;
+                    overflow: hidden;
+                }}
+                .vulnerable-item::before {{
+                    content: "VULNERABLE";
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    background-color: #f00;
+                    color: #000;
+                    font-size: 0.7rem;
+                    padding: 0.2rem 0.5rem;
+                    transform: rotate(45deg) translate(25%, -50%);
+                }}
+                .vulnerable-item:hover {{
+                    transform: scale(1.02);
+                    box-shadow: 0 0 20px #f00;
+                }}
             </style>
         </head>
         <body>
-            <h1>{scan_type} Vulnerability Report</h1>
-            <p>Total vulnerabilities found: {len(vulnerable_urls)}</p>
-            <ul>
-            """
-        for url in vulnerable_urls:
-            html_content += f"<li class='vulnerable'>{html.escape(url)}</li>"
-        html_content += """
-            </ul>
+            <div class="container">
+                <div class="logo">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200">
+                        <defs>
+                            <linearGradient id="techGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#6E44FF"/>
+                                <stop offset="50%" style="stop-color:#1CDCE8"/>
+                                <stop offset="100%" style="stop-color:#F77E21"/>
+                            </linearGradient>
+                            <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#FF5F6D"/>
+                                <stop offset="50%" style="stop-color:#FFC371"/>
+                                <stop offset="100%" style="stop-color:#FF5F6D"/>
+                            </linearGradient>
+                            <filter id="neonGlow">
+                                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                                <feMerge>
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+
+                        <!-- Futuristic Background Elements -->
+                        <g transform="translate(150,100)">
+                            <!-- Circular Grid -->
+                            <g stroke="#1CDCE8" stroke-width="0.5" fill="none" opacity="0.3">
+                                <circle r="80"/>
+                                <circle r="60"/>
+                                <circle r="40"/>
+                                <line x1="-80" y1="0" x2="80" y2="0"/>
+                                <line x1="0" y1="-80" x2="0" y2="80"/>
+                                <line x1="-56.57" y1="-56.57" x2="56.57" y2="56.57"/>
+                                <line x1="56.57" y1="-56.57" x2="-56.57" y2="56.57"/>
+                            </g>
+                            
+                            <!-- Animated Particles -->
+                            <g fill="#F77E21">
+                                <circle r="2">
+                                    <animateMotion dur="10s" repeatCount="indefinite" 
+                                    path="M0,0 Q40,40 0,80 Q-40,40 0,0"/>
+                                </circle>
+                                <circle r="2">
+                                    <animateMotion dur="8s" repeatCount="indefinite" 
+                                    path="M0,0 Q-50,-20 -80,0 Q-50,20 0,0"/>
+                                </circle>
+                                <circle r="2">
+                                    <animateMotion dur="12s" repeatCount="indefinite" 
+                                    path="M0,0 Q50,-20 80,0 Q50,20 0,0"/>
+                                </circle>
+                            </g>
+                        </g>
+
+                        <!-- Central Hexagon -->
+                        <g transform="translate(150,100)">
+                            <path d="M0,-40 L34.64,-20 L34.64,20 L0,40 L-34.64,20 L-34.64,-20 Z" fill="url(#techGradient)" opacity="0.7" filter="url(#neonGlow)">
+                                <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="20s" repeatCount="indefinite"/>
+                            </path>
+                        </g>
+
+                        <!-- Dynamic Lines -->
+                        <g stroke="#6E44FF" stroke-width="2" stroke-linecap="round">
+                            <line x1="40" y1="40" x2="260" y2="160">
+                                <animate attributeName="x2" values="260;240;260" dur="4s" repeatCount="indefinite"/>
+                                <animate attributeName="y2" values="160;140;160" dur="4s" repeatCount="indefinite"/>
+                            </line>
+                            <line x1="260" y1="40" x2="40" y2="160">
+                                <animate attributeName="x1" values="260;240;260" dur="4s" repeatCount="indefinite"/>
+                                <animate attributeName="y1" values="40;60;40" dur="4s" repeatCount="indefinite"/>
+                            </line>
+                        </g>
+
+                        <!-- LOXS Text -->
+                        <g transform="translate(150,100)">
+                            <!-- Text Shadow -->
+                            <text x="0" y="0" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#1CDCE8" text-anchor="middle" filter="url(#neonGlow)" opacity="0.5">LOXS</text>
+                            
+                            <!-- Main Text -->
+                            <text x="0" y="0" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="url(#textGradient)" text-anchor="middle" filter="url(#neonGlow)">LOXS</text>
+                            
+                            <!-- Animated Underline -->
+                            <path d="M-60,10 Q0,20 60,10" stroke="url(#textGradient)" stroke-width="4" fill="none" filter="url(#neonGlow)">
+                                <animate attributeName="d" 
+                                        values="M-60,10 Q0,20 60,10;M-60,15 Q0,25 60,15;M-60,10 Q0,20 60,10" 
+                                        dur="3s" 
+                                        repeatCount="indefinite"/>
+                            </path>
+                        </g>
+                    </svg>
+                </div>
+                <h1 class="animated-text" data-text="Loxs Security Scan Report">Loxs Security Scan Report</h1>
+                <div class="summary">
+                    <div class="summary-item">
+                        <span class="summary-label">Scan Type:</span>
+                        <span class="summary-value">{scan_type}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Total Vulnerabilities Found:</span>
+                        <span class="summary-value">{total_found}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Total URLs Scanned:</span>
+                        <span class="summary-value">{total_scanned}</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Time Taken:</span>
+                        <span class="summary-value">{time_taken} seconds</span>
+                    </div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress"></div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">{total_found}</div>
+                        <div class="stat-label">Vulnerabilities Detected</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">{total_scanned}</div>
+                        <div class="stat-label">URLs Scanned</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">{time_taken}s</div>
+                        <div class="stat-label">Scan Duration</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">{total_found / total_scanned:.2%}</div>
+                        <div class="stat-label">Vulnerability Rate</div>
+                    </div>
+                </div>
+                <h2 class="animated-text" data-text="Scan Timeline">Scan Timeline</h2>
+                <div class="timeline">
+                    <div class="timeline-item left">
+                        <div class="timeline-content">
+                            <h3>Scan Initiated</h3>
+                            <p>Type: {scan_type}</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item right">
+                        <div class="timeline-content">
+                            <h3>Scanning Process</h3>
+                            <p>{total_scanned} URLs analyzed</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item left">
+                        <div class="timeline-content">
+                            <h3>Vulnerabilities Detected</h3>
+                            <p>{total_found} vulnerabilities found</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item right">
+                        <div class="timeline-content">
+                            <h3>Scan Completed</h3>
+                            <p>Duration: {time_taken} seconds</p>
+                        </div>
+                    </div>
+                </div>
+                <h2 class="animated-text" data-text="Vulnerable URLs">Vulnerable URLs</h2>
+                <ul class="vulnerable-list">
+                    {"".join(f'<li class="vulnerable-item"><a href="{url}" target="_blank" style="color: inherit; text-decoration: none;">{url}</a></li>' for url in vulnerable_urls)}
+                </ul>
+            </div>
         </body>
         </html>
         """
         return html_content
+
+    def save_html_report(html_content, filename):
+        if not filename.lower().endswith('.html'):
+            filename += '.html'
+        with open(filename, 'w', encoding='utf-8') as f:
+            f.write(html_content)
+        print(f"{Fore.GREEN}[✔] HTML report saved as {filename}")
+        return filename
     
-    def send_telegram_message(bot_token, chat_id, html_content):
-        try:
-            bot = telegram_Bot(token=bot_token)
-            bot.send_message(chat_id=chat_id, text=html_content, parse_Mode=telegram.ParseMode.HTML)
-            print(f"{Fore.GREEN}[+] Vulnerability report sent successfully via telegram!")
-        except Exception as e:
-            print(f"{Fore.RED}[!] Error sending telegram message: {str(e)}")
-
-        get_telegram_credentials()
-        html_report = generate_html_report(scan_type, vulnerable_urls)
-        send_telegram_message(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, html_report)
-
-
+    def send_telegram_report(filename, scan_type, total_found, total_scanned, time_taken, vulnerable_urls):
+        global TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
+        
+        if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+            TELEGRAM_BOT_TOKEN = input(f"{Fore.CYAN}[?] Enter your Telegram Bot Token: ").strip()
+            TELEGRAM_CHAT_ID = input(f"{Fore.CYAN}[?] Enter your Telegram Chat ID: ").strip()
+            
+            save_creds = input(f"{Fore.CYAN}[?] Do you want to save these credentials permanently? (y/n): ").strip().lower()
+            if save_creds == 'y':
+                save_telegram_credentials(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
+                
+                message = f"Scan Report for {filename}\n"
+                message += f"Scan Type: {scan_type}\n"
+                message += f"Total Found: {total_found}\n"
+                message += f"Total Scanned: {total_scanned}\n"
+                message += f"Time Taken: {time_taken}\n"
+                message += "Vulnerable URLs:\n"
+                for url in vulnerable_urls:
+                    message += f"- {url}\n"
+    
+        url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendDocument"
+        
+        with open(filename, 'rb') as document:
+            files = {'document': document}
+            data = {
+                'chat_id': TELEGRAM_CHAT_ID,
+                'caption': f"Loxs {scan_type} Report\nTotal Found: {total_found}\nTotal Scanned: {total_scanned}",
+                'parse_mode': 'HTML'
+            }
+            response = requests.post(url, files=files, data=data)
+        
+        if response.status_code == 200:
+            print(f"{Fore.GREEN}Report sent successfully via Telegram.")
+        else:
+            print(f"{Fore.RED}Failed to send report via Telegram. Status code: {response.status_code}")
+            
+            
     def run_sql_scanner():
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
         init(autoreset=True)
@@ -256,13 +695,13 @@ try:
         def handle_exception(exc_type, exc_value, exc_traceback):
             if issubclass(exc_type, KeyboardInterrupt):
                 print(f"\n{Fore.YELLOW}Program terminated by the user!")
-                save_prompt()
+                save_results(vulnerable_urls, total_found, total_scanned, start_time)
                 sys.exit(0)
             else:
                 print(f"\n{Fore.RED}An unexpected error occurred: {exc_value}")
                 sys.exit(1)
 
-        def save_prompt(vulnerable_urls=[]):
+        def save_results(vulnerable_urls, total_found, total_scanned, start_time):
             save_choice = input(f"{Fore.CYAN}\n[?] Do you want to save the vulnerable URLs to a file? (y/n, press Enter for n): ").strip().lower()
             if save_choice == 'y':
                 output_file = input(f"{Fore.CYAN}[?] Enter the name of the output file (press Enter for 'vulnerable_urls.txt'): ").strip() or 'vulnerable_urls.txt'
@@ -270,11 +709,17 @@ try:
                     for url in vulnerable_urls:
                         f.write(url + '\n')
                 print(f"{Fore.GREEN}Vulnerable URLs have been saved to {output_file}")
-                os._exit(0)
-            else:
-                print(f"{Fore.YELLOW}Vulnerable URLs will not be saved.")
-                os._exit(0)
-
+            
+            generate_report = input(f"{Fore.CYAN}\n[?] Do you want to generate an HTML report? (y/n): ").strip().lower()
+            if generate_report == 'y':
+                html_content = generate_html_report("Structured Query Language Injection (SQLi)", total_found, total_scanned, int(time.time() - start_time), vulnerable_urls)
+                filename = input(f"{Fore.CYAN}[?] Enter the filename for the HTML report: ").strip()
+                report_file = save_html_report(html_content, filename)
+                
+                share_telegram = input(f"{Fore.CYAN}\n[?] Do you want to share the report via Telegram? (y/n): ").strip().lower()
+                if share_telegram == 'y':
+                    send_telegram_report(report_file, "Structured Query Language Injection (SQLi)", total_found, total_scanned, int(time.time() - start_time), vulnerable_urls)
+                    
         def prompt_for_urls():
             while True:
                 try:
@@ -377,8 +822,8 @@ try:
                                     encoded_url_with_payload = encoded_url
                                 else:
                                     list_stripped_payload = url_with_payload
-                                    for url in urls:
-                                        list_stripped_payload = list_stripped_payload.replace(url, '')
+                                    for u in urls:
+                                        list_stripped_payload = list_stripped_payload.replace(u, '')
                                     encoded_stripped_payload = quote(list_stripped_payload, safe='')
 
                                     encoded_url_with_payload = url_with_payload.replace(list_stripped_payload, encoded_stripped_payload)
@@ -396,7 +841,7 @@ try:
                                         print(f"{Fore.YELLOW}[i] Total scanned: {total_scanned}")
                                         print(f"{Fore.YELLOW}[i] Time taken: {time_taken:.2f} seconds")
             
-                                        save_prompt(vulnerable_urls)
+                                        save_results(vulnerable_urls)
                                         return
                                     first_vulnerability_prompt = False
                             else:
@@ -408,8 +853,8 @@ try:
                                     encoded_url_with_payload = encoded_url
                                 else:
                                     list_stripped_payload = url_with_payload
-                                    for url in urls:
-                                        list_stripped_payload = list_stripped_payload.replace(url, '')
+                                    for u in urls:
+                                        list_stripped_payload = list_stripped_payload.replace(u, '')
                                     encoded_stripped_payload = quote(list_stripped_payload, safe='')
 
                                     encoded_url_with_payload = url_with_payload.replace(list_stripped_payload, encoded_stripped_payload)
@@ -436,8 +881,8 @@ try:
                                     encoded_url_with_payload = encoded_url
                                 else:
                                     list_stripped_payload = url_with_payload
-                                    for url in urls:
-                                        list_stripped_payload = list_stripped_payload.replace(url, '')
+                                    for u in urls:
+                                        list_stripped_payload = list_stripped_payload.replace(u, '')
                                     encoded_stripped_payload = quote(list_stripped_payload, safe='')
 
                                     encoded_url_with_payload = url_with_payload.replace(list_stripped_payload, encoded_stripped_payload)
@@ -455,7 +900,7 @@ try:
                                         print(f"{Fore.YELLOW}[i] Total scanned: {total_scanned}")
                                         print(f"{Fore.YELLOW}[i] Time taken: {time_taken:.2f} seconds")
             
-                                        save_prompt(vulnerable_urls)
+                                        save_results(vulnerable_urls)
                                         return
                                     first_vulnerability_prompt = False
 
@@ -467,10 +912,9 @@ try:
                                     print(f"{Fore.YELLOW}\n[i] Scanning with payload: {stripped_payload}")
                                     encoded_url_with_payload = encoded_url
                                 else:
-
                                     list_stripped_payload = url_with_payload
-                                    for url in urls:
-                                        list_stripped_payload = list_stripped_payload.replace(url, '')
+                                    for u in urls:
+                                        list_stripped_payload = list_stripped_payload.replace(u, '')
                                     encoded_stripped_payload = quote(list_stripped_payload, safe='')
 
                                     encoded_url_with_payload = url_with_payload.replace(list_stripped_payload, encoded_stripped_payload)
@@ -479,26 +923,20 @@ try:
                                 print(f"{Fore.RED}Not Vulnerable: {Fore.WHITE}{encoded_url_with_payload}{Fore.CYAN} - Response Time: {response_time:.2f} seconds")
 
                 print_scan_summary(len(vulnerable_urls), total_scanned, start_time)
-                save_prompt(vulnerable_urls)
-
-            except KeyboardInterrupt:
-                print(f"\n{Fore.YELLOW}Program terminated by the user!\n")
-                print(f"{Fore.YELLOW}[i] Total found: {len(vulnerable_urls)}")
-                print(f"{Fore.YELLOW}[i] Total scanned: {total_scanned}")
-                print(f"{Fore.YELLOW}[i] Time taken: {time_taken:.2f} seconds")
-                save_prompt(vulnerable_urls)
-
-                if vulnerable_urls:
-                    telegram_integration("Structured Query Language Injection (SQLi)", vulnerable_urls)                
+                save_results(vulnerable_urls)
                 sys.exit(0)
+                
+            except Exception as e:
+                print(f"{Fore.RED}An error occurred: {str(e)}")
+            finally:
+                if 'executor' in locals():
+                    executor.shutdown(wait=False)
 
         if __name__ == "__main__":
             try:
-                loop = asyncio.get_event_loop()
-                loop.run_until_complete(main())
+                main()
             except KeyboardInterrupt:
                 sys.exit(0)
-
 
 
     def run_xss_scanner():
@@ -659,12 +1097,33 @@ try:
 
 
             def save_injectables_to_file(self):
-                if self.injectables:
-                    with open(self.output, "w") as output_file:
-                        for url in self.injectables:
-                            output_file.write(url + "\n")
-                    print(f"{Fore.GREEN}[+] Vulnerable URLs saved to {self.output}")
+                with open(self.output, "w") as output_file:
+                    for url in self.injectables:
+                        output_file.write(url + "\n")
 
+            def save_results(self):
+                if self.injectables:
+                    save_choice = input(f"{Fore.CYAN}\n[?] Do you want to save the vulnerable URLs to a file? (y/n, press Enter for n): ").strip().lower()
+                    if save_choice == 'y':
+                        output_file = input(f"{Fore.CYAN}[?] Enter the name of the output file (press Enter for 'vulnerable_urls.txt'): ").strip() or 'vulnerable_urls.txt'
+                        with open(output_file, 'w') as f:
+                            for url in self.injectables:
+                                    f.write(url + '\n')
+                            print(f"{Fore.GREEN}Vulnerable URLs have been saved to {output_file}")
+                    
+                    generate_report = input(f"{Fore.CYAN}\n[?] Do you want to generate an HTML report? (y/n): ").strip().lower()
+                    if generate_report == 'y':
+                        html_content = generate_html_report("Cross Site Scripting (XSS)", len(self.injectables), self.totalScanned, int(time.time() - self.t0), self.injectables)
+                        filename = input(f"{Fore.CYAN}[?] Enter the filename for the HTML report: ").strip()
+                        report_file = save_html_report(html_content, filename)
+                    else:
+                        report_file = None
+                        
+                    share_telegram = input(f"{Fore.CYAN}\n[?] Do you want to share the report via Telegram? (y/n, press Enter for n): ").strip().lower()
+                    if share_telegram == 'y':
+                        send_telegram_report(report_file, "Cross Site Scripting (XSS)", len(self.injectables), self.totalScanned, int(time.time() - self.t0), self.injectables)
+                else:
+                    print(f"{Fore.YELLOW}No vulnerabilities found. So no report to generate.")
 
             def run(self):
                 asyncio.run(self.scan())
@@ -673,30 +1132,10 @@ try:
                     print(f"{Fore.YELLOW}[i] Total scanned: {self.totalScanned}")
                     print(f"{Fore.YELLOW}[i] Time taken: {int(time.time() - self.t0)} seconds\n")
                     print(f"{Fore.GREEN}[i] Vulnerabilities found: {len(self.injectables)}")
-
-                    if self.injectables:  
-                        save_option = input(f"{Fore.CYAN}[?] Do you want to save the vulnerable URLs to {self.output}? (y/n, press Enter for n): ").strip().lower()
-                        if save_option == 'y':
-                            self.save_injectables_to_file()
-                        else:
-                            print(f"{Fore.YELLOW}Vulnerable URLs will not be saved.")
-
-                        if self.injectables:
-                            telegram_integration("Cross Site Scripting (XSS)", self.injectables)
-                            os._exit(0)
-                    else:
-                        print(f"{Fore.YELLOW}No vulnerabilities found. No URLs to save.")
-                        os._exit(0)
-   
-
+                    self.save_results()
                 except KeyboardInterrupt:
                     sys.exit(0)
 
-                                    
-            def save_injectables_to_file(self):
-                with open(self.output, "w") as output_file:
-                    for url in self.injectables:
-                        output_file.write(url + "\n")
 
         def get_file_path(prompt_text):
             completer = PathCompleter()
@@ -787,6 +1226,7 @@ try:
             )
 
             scanner.run()
+            sys.exit(0)
 
 
         if __name__ == "__main__":
@@ -907,26 +1347,31 @@ try:
             print(Fore.YELLOW + f"[i] Total scanned: {total_scanned}")
             print(Fore.YELLOW + f"[i] Time taken: {int(time.time() - start_time)} seconds")
 
-        def save_results(vulnerable_urls):
-            save_prompt(vulnerable_urls)
 
-        def save_prompt(vulnerable_urls=[]):
-            save_choice = input(Fore.CYAN + "\n[?] Do you want to save the vulnerable URLs to a file? (y/n, press Enter for n): ").strip().lower()
+        def save_results(vulnerable_urls, total_found, total_scanned, start_time):
+            save_choice = input(f"{Fore.CYAN}\n[?] Do you want to save the vulnerable URLs to a file? (y/n, press Enter for n): ").strip().lower()
             if save_choice == 'y':
-                output_file = input(Fore.CYAN + "Enter the name of the output file (press Enter for 'vulnerable_urls.txt'): ").strip() or 'vulnerable_urls.txt'
+                output_file = input(f"{Fore.CYAN}[?] Enter the name of the output file (press Enter for 'vulnerable_urls.txt'): ").strip() or 'vulnerable_urls.txt'
                 with open(output_file, 'w') as f:
                     for url in vulnerable_urls:
                         f.write(url + '\n')
-                print(Fore.GREEN + f"Vulnerable URLs have been saved to {output_file}")
-
-                if vulnerable_urls:
-                    telegram_integration("Open Redirection (OR)", vulnerable_urls)
-
-                os._exit(0)
+                print(f"{Fore.GREEN}Vulnerable URLs have been saved to {output_file}")
+            
+            generate_report = input(f"{Fore.CYAN}\n[?] Do you want to generate an HTML report? (y/n, press Enter for n): ").strip().lower()
+            if generate_report == 'y':
+                html_content = generate_html_report("Open Redirect (OR)", total_found, total_scanned, int(time.time() - start_time), vulnerable_urls)
+                filename = input(f"{Fore.CYAN}[?] Enter the filename for the HTML report: ").strip()
+                report_file = save_html_report(html_content, filename)
             else:
-                print(Fore.YELLOW + "Vulnerable URLs will not be saved.")
-                os._exit(0)
-
+                report_file = None
+                
+                share_telegram = input(f"{Fore.CYAN}\n[?] Do you want to share the report via Telegram? (y/n, press Enter for n): ").strip().lower()
+                if share_telegram == 'y':
+                    send_telegram_report(report_file, "Open Redirect (OR)", total_found, total_scanned, int(time.time() - start_time), vulnerable_urls)
+                else:
+                    print(f"{Fore.YELLOW}Vulnerable URLs will not be saved.")
+                    os._exit(0)
+            
         def run_or_scanner():
             clear_screen()
 
@@ -980,7 +1425,8 @@ try:
                     vulnerable_urls.extend(urls_with_payloads)
             
             print_scan_summary(total_found, total_scanned, start_time)
-            save_results(vulnerable_urls)
+            save_results(vulnerable_urls, total_found, total_scanned, start_time)
+            sys.exit(0)
 
         if __name__ == "__main__":
             try:
@@ -1066,21 +1512,24 @@ try:
                         print(Fore.RED + f"[!] Exception occurred for payload {payload}: {str(e)}")
             return found_vulnerabilities, vulnerable_urls
 
-        def save_results(vulnerable_urls):
-            save_prompt(vulnerable_urls)
-
-        def save_prompt(vulnerable_urls=[]):
-            save_choice = input(Fore.CYAN + "\n[?] Do you want to save the vulnerable URLs to a file? (y/n, press Enter for n): ").strip().lower()
+        def save_results(vulnerable_urls, total_found, total_scanned, start_time):
+            save_choice = input(f"{Fore.CYAN}\n[?] Do you want to save the vulnerable URLs to a file? (y/n, press Enter for n): ").strip().lower()
             if save_choice == 'y':
-                output_file = input(Fore.CYAN + "Enter the name of the output file (press Enter for 'vulnerable_urls.txt'): ").strip() or 'vulnerable_urls.txt'
+                output_file = input(f"{Fore.CYAN}[?] Enter the name of the output file (press Enter for 'vulnerable_urls.txt'): ").strip() or 'vulnerable_urls.txt'
                 with open(output_file, 'w') as f:
                     for url in vulnerable_urls:
                         f.write(url + '\n')
-                print(Fore.GREEN + f"Vulnerable URLs have been saved to {output_file}")
-                if vulnerable_urls:
-                    telegram_integration("Local File Inclusion (LFI)", vulnerable_urls)
-            else:
-                print(Fore.YELLOW + "Vulnerable URLs will not be saved.")
+                print(f"{Fore.GREEN}Vulnerable URLs have been saved to {output_file}")
+            
+            generate_report = input(f"{Fore.CYAN}\n[?] Do you want to generate an HTML report? (y/n): ").strip().lower()
+            if generate_report == 'y':
+                html_content = generate_html_report("Local File Inclusion (LFI)", total_found, total_scanned, int(time.time() - start_time), vulnerable_urls)
+                filename = input(f"{Fore.CYAN}[?] Enter the filename for the HTML report: ").strip()
+                report_file = save_html_report(html_content, filename)
+                
+                share_telegram = input(f"{Fore.CYAN}\n[?] Do you want to share the report via Telegram? (y/n): ").strip().lower()
+                if share_telegram == 'y':
+                    send_telegram_report(report_file, "Local File Inclusion (LFI)", total_found, total_scanned, int(time.time() - start_time), vulnerable_urls)
 
         def prompt_for_urls():
             while True:
@@ -1199,8 +1648,8 @@ try:
 
 
             print_scan_summary(total_found, total_scanned, start_time)
-            
-            save_results(vulnerable_urls)
+            save_results(vulnerable_urls, total_found, total_scanned, start_time)
+            sys.exit(0)
 
         if __name__ == "__main__":
             try:
@@ -1321,6 +1770,8 @@ try:
         clear_screen()
         sleep(1)
         clear_screen()
+        
+        load_telegram_credentials()
 
         while True:
             display_menu()
