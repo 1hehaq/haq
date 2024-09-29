@@ -615,7 +615,7 @@ try:
             TELEGRAM_BOT_TOKEN = input(f"{Fore.CYAN}[?] Enter your Telegram Bot Token: ").strip()
             TELEGRAM_CHAT_ID = input(f"{Fore.CYAN}[?] Enter your Telegram Chat ID: ").strip()
             
-            save_creds = input(f"{Fore.CYAN}[?] Do you want to save these credentials permanently? (y/n): ").strip().lower()
+            save_creds = input(f"{Fore.CYAN}[?] Do you want to save these credentials for future use? (y/n): ").strip().lower()
             if save_creds == 'y':
                 save_telegram_credentials(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID)
                 
@@ -719,7 +719,7 @@ try:
                 share_telegram = input(f"{Fore.CYAN}\n[?] Do you want to share the report via Telegram? (y/n): ").strip().lower()
                 if share_telegram == 'y':
                     send_telegram_report(report_file, "Structured Query Language Injection (SQLi)", total_found, total_scanned, int(time.time() - start_time), vulnerable_urls)
-                    
+
         def prompt_for_urls():
             while True:
                 try:
@@ -772,14 +772,14 @@ try:
             clear_screen()
 
             panel = Panel(r"""                                                       
-               ___                                         
-   _________ _/ (_)  ______________ _____  ____  ___  _____
-  / ___/ __ `/ / /  / ___/ ___/ __ `/ __ \/ __ \/ _ \/ ___/
- (__  ) /_/ / / /  (__  ) /__/ /_/ / / / / / / /  __/ /    
-/____/\__, /_/_/  /____/\___/\__,_/_/ /_/_/ /_/\___/_/     
-        /_/                                                
+            ___                                         
+    _________ _/ (_)  ______________ _____  ____  ___  _____
+    / ___/ __ `/ / /  / ___/ ___/ __ `/ __ \/ __ \/ _ \/ ___/
+    (__  ) /_/ / / /  (__  ) /__/ /_/ / / / / / / /  __/ /    
+    /____/\__, /_/_/  /____/\___/\__,_/_/ /_/_/ /_/\___/_/     
+            /_/                                                
 
-                """,
+                    """,
             style="bold green",
             border_style="blue",
             expand=False
@@ -804,6 +804,7 @@ try:
             single_url_scan = len(urls) == 1
             start_time = time.time()
             total_scanned = 0
+            total_found = 0
                 
             get_random_user_agent()
             try:
@@ -831,18 +832,11 @@ try:
                                     print(f"{Fore.YELLOW}\n[i] Scanning with payload: {list_stripped_payload}")
                                 print(f"{Fore.GREEN}Vulnerable: {Fore.WHITE}{encoded_url_with_payload}{Fore.CYAN} - Response Time: {response_time:.2f} seconds")
                                 vulnerable_urls.append(url_with_payload)
+                                total_found += 1
                                 if single_url_scan and first_vulnerability_prompt:
                                     continue_scan = input(f"{Fore.CYAN}\n[?] Vulnerability found. Do you want to continue testing other payloads? (y/n, press Enter for n): ").strip().lower()
                                     if continue_scan != 'y':
-                                        end_time = time.time()
-                                        time_taken = end_time - start_time
-                                        print(f"{Fore.YELLOW}\n[i] Scanning finished.")
-                                        print(f"{Fore.YELLOW}[i] Total found: {len(vulnerable_urls)}")
-                                        print(f"{Fore.YELLOW}[i] Total scanned: {total_scanned}")
-                                        print(f"{Fore.YELLOW}[i] Time taken: {time_taken:.2f} seconds")
-            
-                                        save_results(vulnerable_urls)
-                                        return
+                                        break
                                     first_vulnerability_prompt = False
                             else:
                                 stripped_payload = url_with_payload.replace(url, '')
@@ -890,18 +884,11 @@ try:
                                     print(f"{Fore.YELLOW}\n[i] Scanning with payload: {list_stripped_payload}")
                                 print(f"{Fore.GREEN}Vulnerable: {Fore.WHITE}{encoded_url_with_payload}{Fore.CYAN} - Response Time: {response_time:.2f} seconds")
                                 vulnerable_urls.append(url_with_payload)
+                                total_found += 1
                                 if single_url_scan and first_vulnerability_prompt:
                                     continue_scan = input(f"{Fore.CYAN}\n[?] Vulnerability found. Do you want to continue testing other payloads? (y/n, press Enter for n): ").strip().lower()
                                     if continue_scan != 'y':
-                                        end_time = time.time()
-                                        time_taken = end_time - start_time
-                                        print(f"{Fore.YELLOW}\n[i] Scanning finished.")
-                                        print(f"{Fore.YELLOW}[i] Total found: {len(vulnerable_urls)}")
-                                        print(f"{Fore.YELLOW}[i] Total scanned: {total_scanned}")
-                                        print(f"{Fore.YELLOW}[i] Time taken: {time_taken:.2f} seconds")
-            
-                                        save_results(vulnerable_urls)
-                                        return
+                                        break
                                     first_vulnerability_prompt = False
 
                             else:
@@ -922,22 +909,20 @@ try:
                                     print(f"{Fore.YELLOW}\n[i] Scanning with payload: {list_stripped_payload}")
                                 print(f"{Fore.RED}Not Vulnerable: {Fore.WHITE}{encoded_url_with_payload}{Fore.CYAN} - Response Time: {response_time:.2f} seconds")
 
-                print_scan_summary(len(vulnerable_urls), total_scanned, start_time)
-                save_results(vulnerable_urls)
-                sys.exit(0)
-                
+                print_scan_summary(total_found, total_scanned, start_time)
+                save_results(vulnerable_urls, total_found, total_scanned, start_time)
             except Exception as e:
                 print(f"{Fore.RED}An error occurred: {str(e)}")
             finally:
                 if 'executor' in locals():
                     executor.shutdown(wait=False)
+                    sys.exit(0)
 
         if __name__ == "__main__":
             try:
                 main()
             except KeyboardInterrupt:
                 sys.exit(0)
-
 
     def run_xss_scanner():
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -1362,15 +1347,12 @@ try:
                 html_content = generate_html_report("Open Redirect (OR)", total_found, total_scanned, int(time.time() - start_time), vulnerable_urls)
                 filename = input(f"{Fore.CYAN}[?] Enter the filename for the HTML report: ").strip()
                 report_file = save_html_report(html_content, filename)
-            else:
-                report_file = None
-                
+
                 share_telegram = input(f"{Fore.CYAN}\n[?] Do you want to share the report via Telegram? (y/n, press Enter for n): ").strip().lower()
                 if share_telegram == 'y':
                     send_telegram_report(report_file, "Open Redirect (OR)", total_found, total_scanned, int(time.time() - start_time), vulnerable_urls)
-                else:
-                    print(f"{Fore.YELLOW}Vulnerable URLs will not be saved.")
-                    os._exit(0)
+            else:
+                exit()
             
         def run_or_scanner():
             clear_screen()
@@ -1576,7 +1558,6 @@ try:
             print(Fore.YELLOW + f"[i] Total found: {total_found}")
             print(Fore.YELLOW + f"[i] Total scanned: {total_scanned}")
             print(Fore.YELLOW + f"[i] Time taken: {int(time.time() - start_time)} seconds")
-            exit()
 
         def clear_screen():
             os.system('cls' if os.name == 'nt' else 'clear')
