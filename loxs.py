@@ -712,14 +712,6 @@ try:
                 sys.exit(1)
 
         def save_results(vulnerable_urls, total_found, total_scanned, start_time):
-            save_choice = input(f"{Fore.CYAN}\n[?] Do you want to save the vulnerable URLs to a file? (y/n, press Enter for n): ").strip().lower()
-            if save_choice == 'y':
-                output_file = input(f"{Fore.CYAN}[?] Enter the name of the output file (press Enter for 'vulnerable_urls.txt'): ").strip() or 'vulnerable_urls.txt'
-                with open(output_file, 'w') as f:
-                    for url in vulnerable_urls:
-                        f.write(url + '\n')
-                print(f"{Fore.GREEN}Vulnerable URLs have been saved to {output_file}")
-            
             generate_report = input(f"{Fore.CYAN}\n[?] Do you want to generate an HTML report? (y/n): ").strip().lower()
             if generate_report == 'y':
                 html_content = generate_html_report("Structured Query Language Injection (SQLi)", total_found, total_scanned, int(time.time() - start_time), vulnerable_urls)
@@ -1097,28 +1089,15 @@ try:
                         output_file.write(url + "\n")
 
             def save_results(self):
-                if self.injectables:
-                    save_choice = input(f"{Fore.CYAN}\n[?] Do you want to save the vulnerable URLs to a file? (y/n, press Enter for n): ").strip().lower()
-                    if save_choice == 'y':
-                        output_file = input(f"{Fore.CYAN}[?] Enter the name of the output file (press Enter for 'vulnerable_urls.txt'): ").strip() or 'vulnerable_urls.txt'
-                        with open(output_file, 'w') as f:
-                            for url in self.injectables:
-                                    f.write(url + '\n')
-                            print(f"{Fore.GREEN}Vulnerable URLs have been saved to {output_file}")
+                generate_report = input(f"{Fore.CYAN}\n[?] Do you want to generate an HTML report? (y/n): ").strip().lower()
+                if generate_report == 'y':
+                    html_content = generate_html_report("Cross Site Scripting (XSS)", len(self.injectables), self.totalScanned, int(time.time() - self.t0), self.injectables)
+                    filename = input(f"{Fore.CYAN}[?] Enter the filename for the HTML report: ").strip()
+                    report_file = save_html_report(html_content, filename)
                     
-                    generate_report = input(f"{Fore.CYAN}\n[?] Do you want to generate an HTML report? (y/n): ").strip().lower()
-                    if generate_report == 'y':
-                        html_content = generate_html_report("Cross Site Scripting (XSS)", len(self.injectables), self.totalScanned, int(time.time() - self.t0), self.injectables)
-                        filename = input(f"{Fore.CYAN}[?] Enter the filename for the HTML report: ").strip()
-                        report_file = save_html_report(html_content, filename)
-                    else:
-                        report_file = None
-                        
-                    share_telegram = input(f"{Fore.CYAN}\n[?] Do you want to share the report via Telegram? (y/n, press Enter for n): ").strip().lower()
+                    share_telegram = input(f"{Fore.CYAN}\n[?] Do you want to share the report via Telegram? (y/n): ").strip().lower()
                     if share_telegram == 'y':
                         send_telegram_report(report_file, "Cross Site Scripting (XSS)", len(self.injectables), self.totalScanned, int(time.time() - self.t0), self.injectables)
-                else:
-                    print(f"{Fore.YELLOW}No vulnerabilities found. So no report to generate.")
 
             def run(self):
                 asyncio.run(self.scan())
@@ -1344,25 +1323,16 @@ try:
 
 
         def save_results(vulnerable_urls, total_found, total_scanned, start_time):
-            save_choice = input(f"{Fore.CYAN}\n[?] Do you want to save the vulnerable URLs to a file? (y/n, press Enter for n): ").strip().lower()
-            if save_choice == 'y':
-                output_file = input(f"{Fore.CYAN}[?] Enter the name of the output file (press Enter for 'vulnerable_urls.txt'): ").strip() or 'vulnerable_urls.txt'
-                with open(output_file, 'w') as f:
-                    for url in vulnerable_urls:
-                        f.write(url + '\n')
-                print(f"{Fore.GREEN}Vulnerable URLs have been saved to {output_file}")
-            
-            generate_report = input(f"{Fore.CYAN}\n[?] Do you want to generate an HTML report? (y/n, press Enter for n): ").strip().lower()
+            generate_report = input(f"{Fore.CYAN}\n[?] Do you want to generate an HTML report? (y/n): ").strip().lower()
             if generate_report == 'y':
                 html_content = generate_html_report("Open Redirect (OR)", total_found, total_scanned, int(time.time() - start_time), vulnerable_urls)
                 filename = input(f"{Fore.CYAN}[?] Enter the filename for the HTML report: ").strip()
                 report_file = save_html_report(html_content, filename)
 
-                share_telegram = input(f"{Fore.CYAN}\n[?] Do you want to share the report via Telegram? (y/n, press Enter for n): ").strip().lower()
+                share_telegram = input(f"{Fore.CYAN}\n[?] Do you want to share the report via Telegram? (y/n): ").strip().lower()
                 if share_telegram == 'y':
                     send_telegram_report(report_file, "Open Redirect (OR)", total_found, total_scanned, int(time.time() - start_time), vulnerable_urls)
-            else:
-                exit()
+
             
         def run_or_scanner():
             clear_screen()
@@ -1505,14 +1475,6 @@ try:
             return found_vulnerabilities, vulnerable_urls
 
         def save_results(vulnerable_urls, total_found, total_scanned, start_time):
-            save_choice = input(f"{Fore.CYAN}\n[?] Do you want to save the vulnerable URLs to a file? (y/n, press Enter for n): ").strip().lower()
-            if save_choice == 'y':
-                output_file = input(f"{Fore.CYAN}[?] Enter the name of the output file (press Enter for 'vulnerable_urls.txt'): ").strip() or 'vulnerable_urls.txt'
-                with open(output_file, 'w') as f:
-                    for url in vulnerable_urls:
-                        f.write(url + '\n')
-                print(f"{Fore.GREEN}Vulnerable URLs have been saved to {output_file}")
-            
             generate_report = input(f"{Fore.CYAN}\n[?] Do you want to generate an HTML report? (y/n): ").strip().lower()
             if generate_report == 'y':
                 html_content = generate_html_report("Local File Inclusion (LFI)", total_found, total_scanned, int(time.time() - start_time), vulnerable_urls)
