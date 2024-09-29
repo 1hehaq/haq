@@ -86,12 +86,12 @@ try:
 
     def display_menu():
         title = r"""
-                .____.          ____  ___                
-                |    |    _____ \   \/  /  ______
-                |    |   /     \ \     /  /  ___/
-                |    |__(   O  / /     \  \___  \
-                |_______/\____/ /___/\  \ /_____/ 
-                                      \_/                 
+    .____.          ____  ___                
+    |    |    _____ \   \/  /  ______
+    |    |   /     \ \     /  /  ___/
+    |    |__(   O  / /     \  \___  \
+    |_______/\____/ /___/\  \ /_____/ 
+                          \_/                 
     """
         print(Color.ORANGE + Style.BRIGHT + title.center(63))
         print(Fore.YELLOW + load_telegram_credentials().center(63))
