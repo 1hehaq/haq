@@ -1,5 +1,5 @@
 <div align="center">
-   <a href="https://github.com/1hehaq/loxs"><img src="https://github.com/user-attachments/assets/fb85287c-d9c7-4ffe-86af-d79082e49784" hight="300" width="600" align="center"/></a>
+   <a href="https://github.com/1hehaq/loxs"><img src="https://github.com/user-attachments/assets/52c7514e-d8a3-4652-92ca-8b284176c3b4" hight="300" width="600" align="center"/></a>
 </div>
 
 
