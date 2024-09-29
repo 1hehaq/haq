@@ -9,5 +9,3 @@ gitpython
 prompt_toolkit
 pyyaml
 Flask
-python-telegram-bot
-html
