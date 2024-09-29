@@ -161,8 +161,8 @@ try:
         with open(__file__, 'r') as file:
             content = file.read()
         
-        content = re.sub(r'TELEGRAM_BOT_TOKEN = ""', content)
-        content = re.sub(r'TELEGRAM_CHAT_ID = ""', content)
+        content = re.sub(r'TELEGRAM_BOT_TOKEN = ".*"', f'TELEGRAM_BOT_TOKEN = "{bot_token}"', content)
+        content = re.sub(r'TELEGRAM_CHAT_ID = ".*"', f'TELEGRAM_CHAT_ID = "{chat_id}"', content)
         
         with open(__file__, 'w') as file:
             file.write(content)
@@ -277,9 +277,13 @@ try:
                 a, .stat-card, .vulnerable-item, button, input[type="submit"] {{
                     cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewport="0 0 24 24" style="fill:rgba(110,68,255,1);transform:rotate(-45deg);"><path d="M12 2L2 22l10-6 10 6L12 2z"/></svg>'), pointer;
                 }}
-                a:hover, .stat-card:hover, .vulnerable-item:hover, button:hover, input[type="submit"]:hover {{
+                a:hover, .stat-card:hover, button:hover, input[type="submit"]:hover {{
                     cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewport="0 0 24 24" style="fill:rgba(255,127,80,1);transform:rotate(-45deg);"><path d="M12 2L2 22l10-6 10 6L12 2z"/></svg>'), pointer;
                     filter: drop-shadow(0 0 6px var(--secondary-color));
+                }}
+                .vulnerable-item:hover {{
+                    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewport="0 0 24 24" style="fill:rgba(255,0,0,1);transform:rotate(-45deg);"><path d="M12 2L2 22l10-6 10 6L12 2z"/></svg>'), pointer;
+                    filter: drop-shadow(0 0 6px #f00);
                 }}
                 @keyframes glitch {{
                     0% {{ transform: translate(0); }}
