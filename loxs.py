@@ -161,8 +161,8 @@ try:
         with open(__file__, 'r') as file:
             content = file.read()
         
-        content = re.sub(r'TELEGRAM_BOT_TOKEN = "7155185876:AAG952jOWXgA907gqXAIc027EHXlX7oAXVo"', content)
-        content = re.sub(r'TELEGRAM_CHAT_ID = "5334463760"', content)
+        content = re.sub(r'TELEGRAM_BOT_TOKEN = ""', content)
+        content = re.sub(r'TELEGRAM_CHAT_ID = ""', content)
         
         with open(__file__, 'w') as file:
             file.write(content)
