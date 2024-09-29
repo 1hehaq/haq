@@ -60,6 +60,8 @@
 
 ```bash
 git clone https://github.com/1hehaq/loxs.git
+```
+```bash
 cd loxs
 ```
 
@@ -102,15 +104,11 @@ after pressing 5 and exiting from the tool run the tool again it will run with a
 
 ----
 
-## ChromeDriver Installation Instructions
-
-- Download chrome .deb file:
+### Chrome Installation
 
 ```bash
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 ```
-
-- Install it:
 
 ```bash
 sudo dpkg -i google-chrome-stable_current_amd64.deb
@@ -122,13 +120,26 @@ sudo dpkg -i google-chrome-stable_current_amd64.deb
 sudo apt -f install
 ```
 
-- After the installation enter this:
-
 ```bash
 sudo dpkg -i google-chrome-stable_current_amd64.deb
 ```
-- All Done
 
+----
+
+### Chrome Driver Installation
+
+```bash
+wget https://storage.googleapis.com/chrome-for-testing-public/128.0.6613.119/linux64/chromedriver-linux64.zip
+```
+```bash
+unzip chromedriver-linux64.zip
+```
+```bash
+cd chromedriver-linux64 
+```
+```bash
+sudo mv chromedriver /usr/bin
+```
 <hr>
 
 > [!WARNING]  
