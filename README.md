@@ -1,7 +1,6 @@
 <div align="center">
-   <a href="https://github.com/1hehaq/loxs"><img src="https://github.com/user-attachments/assets/52c7514e-d8a3-4652-92ca-8b284176c3b4" hight="250" width="500" align="center"/></a>
+   <a href="https://github.com/1hehaq/loxs"><img src="https://github.com/user-attachments/assets/efac87ca-429f-4f7a-b35c-b4c6946b691b" hight="225" width="450" align="center"/></a>
 </div>
-
 
 <br>
 <br>
