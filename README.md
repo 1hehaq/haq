@@ -70,9 +70,7 @@ cd loxs
 ```bash
 pip3 install -r requirements.txt
 ```
-### Running the Script
-
-To run the script, use the following command:
+### Run the Script
 
 ```bash
 python3 loxs.py
