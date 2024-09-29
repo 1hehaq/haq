@@ -161,8 +161,8 @@ try:
         with open(__file__, 'r') as file:
             content = file.read()
         
-        content = re.sub(r'TELEGRAM_BOT_TOKEN = ".*"', f'TELEGRAM_BOT_TOKEN = "{bot_token}"', content)
-        content = re.sub(r'TELEGRAM_CHAT_ID = ".*"', f'TELEGRAM_CHAT_ID = "{chat_id}"', content)
+        content = re.sub(r'TELEGRAM_BOT_TOKEN = "7155185876:AAG952jOWXgA907gqXAIc027EHXlX7oAXVo"', content)
+        content = re.sub(r'TELEGRAM_CHAT_ID = "5334463760"', content)
         
         with open(__file__, 'w') as file:
             file.write(content)
@@ -201,6 +201,7 @@ try:
                         linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
                     background-size: 20px 20px;
                     animation: backgroundScroll 20s linear infinite;
+                    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewport="0 0 24 24" style="fill:rgba(255,127,80,1);"><path d="M12 0c1.104.001 2 .896 2 2v6h8c1.104 0 2 .896 2 2s-.896 2-2 2h-8v8c0 1.104-.896 2-2 2s-2-.896-2-2v-8h-8c-1.104 0-2-.896-2-2s.896-2 2-2h8v-6c0-1.104.896-2 2-2z"/></svg>'), auto;
                 }}
                 @keyframes backgroundScroll {{
                     0% {{ background-position: 0 0; }}
@@ -269,6 +270,16 @@ try:
                 .animated-text::after {{
                     color: var(--primary-color);
                     animation: glitch 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) reverse both infinite;
+                }}
+                * {{
+                    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewport="0 0 24 24" style="fill:rgba(110,68,255,1);transform:rotate(-45deg);"><path d="M12 2L2 22l10-6 10 6L12 2z"/></svg>'), auto;
+                }}
+                a, .stat-card, .vulnerable-item, button, input[type="submit"] {{
+                    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewport="0 0 24 24" style="fill:rgba(110,68,255,1);transform:rotate(-45deg);"><path d="M12 2L2 22l10-6 10 6L12 2z"/></svg>'), pointer;
+                }}
+                a:hover, .stat-card:hover, .vulnerable-item:hover, button:hover, input[type="submit"]:hover {{
+                    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewport="0 0 24 24" style="fill:rgba(255,127,80,1);transform:rotate(-45deg);"><path d="M12 2L2 22l10-6 10 6L12 2z"/></svg>'), pointer;
+                    filter: drop-shadow(0 0 6px var(--secondary-color));
                 }}
                 @keyframes glitch {{
                     0% {{ transform: translate(0); }}
@@ -436,91 +447,86 @@ try:
             <div class="container">
                 <div class="logo">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200">
-                        <defs>
-                            <linearGradient id="techGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" style="stop-color:#6E44FF"/>
-                                <stop offset="50%" style="stop-color:#1CDCE8"/>
-                                <stop offset="100%" style="stop-color:#F77E21"/>
-                            </linearGradient>
-                            <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                <stop offset="0%" style="stop-color:#FF5F6D"/>
-                                <stop offset="50%" style="stop-color:#FFC371"/>
-                                <stop offset="100%" style="stop-color:#FF5F6D"/>
-                            </linearGradient>
-                            <filter id="neonGlow">
-                                <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
-                                <feMerge>
-                                    <feMergeNode in="coloredBlur"/>
-                                    <feMergeNode in="SourceGraphic"/>
-                                </feMerge>
-                            </filter>
-                        </defs>
+                    <defs>
+                        <linearGradient id="scanGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#6E44FF"/>
+                        <stop offset="50%" style="stop-color:#1CDCE8"/>
+                        <stop offset="100%" style="stop-color:#F77E21"/>
+                        </linearGradient>
+                        <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:#FF5F6D"/>
+                        <stop offset="50%" style="stop-color:#FFC371"/>
+                        <stop offset="100%" style="stop-color:#FF5F6D"/>
+                        </linearGradient>
+                    </defs>
 
-                        <!-- Futuristic Background Elements -->
-                        <g transform="translate(150,100)">
-                            <!-- Circular Grid -->
-                            <g stroke="#1CDCE8" stroke-width="0.5" fill="none" opacity="0.3">
-                                <circle r="80"/>
-                                <circle r="60"/>
-                                <circle r="40"/>
-                                <line x1="-80" y1="0" x2="80" y2="0"/>
-                                <line x1="0" y1="-80" x2="0" y2="80"/>
-                                <line x1="-56.57" y1="-56.57" x2="56.57" y2="56.57"/>
-                                <line x1="56.57" y1="-56.57" x2="-56.57" y2="56.57"/>
-                            </g>
-                            
-                            <!-- Animated Particles -->
-                            <g fill="#F77E21">
-                                <circle r="2">
-                                    <animateMotion dur="10s" repeatCount="indefinite" 
-                                    path="M0,0 Q40,40 0,80 Q-40,40 0,0"/>
-                                </circle>
-                                <circle r="2">
-                                    <animateMotion dur="8s" repeatCount="indefinite" 
-                                    path="M0,0 Q-50,-20 -80,0 Q-50,20 0,0"/>
-                                </circle>
-                                <circle r="2">
-                                    <animateMotion dur="12s" repeatCount="indefinite" 
-                                    path="M0,0 Q50,-20 80,0 Q50,20 0,0"/>
-                                </circle>
-                            </g>
-                        </g>
+                    <!-- Central Scanner Element -->
+                    <g transform="translate(150,100)">
+                        <!-- Outer Ring -->
+                        <circle r="100" fill="none" stroke="#1CDCE8" stroke-width="4" stroke-dasharray="10 5">
+                        <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="20s" repeatCount="indefinite"/>
+                        </circle>
+                        
+                        <!-- Middle Ring -->
+                        <circle r="85" fill="none" stroke="#F77E21" stroke-width="3" stroke-dasharray="8 4">
+                        <animateTransform attributeName="transform" type="rotate" from="360" to="0" dur="15s" repeatCount="indefinite"/>
+                        </circle>
+                        
+                        <!-- Inner Ring -->
+                        <circle r="50" fill="none" stroke="#6E44FF" stroke-width="2" stroke-dasharray="6 3">
+                        <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="10s" repeatCount="indefinite"/>
+                        </circle>
+                    </g>
 
-                        <!-- Central Hexagon -->
-                        <g transform="translate(150,100)">
-                            <path d="M0,-40 L34.64,-20 L34.64,20 L0,40 L-34.64,20 L-34.64,-20 Z" fill="url(#techGradient)" opacity="0.7" filter="url(#neonGlow)">
-                                <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="20s" repeatCount="indefinite"/>
-                            </path>
-                        </g>
+                    <!-- Scanning Beam -->
+                    <g transform="translate(150,100)">
+                        <path d="M0,0 L-70,0 A70,70 0 0,1 -49.5,-49.5" fill="none" stroke="url(#scanGradient)" stroke-width="4">
+                        <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="4s" repeatCount="indefinite"/>
+                        </path>
+                    </g>
 
-                        <!-- Dynamic Lines -->
-                        <g stroke="#6E44FF" stroke-width="2" stroke-linecap="round">
-                            <line x1="40" y1="40" x2="260" y2="160">
-                                <animate attributeName="x2" values="260;240;260" dur="4s" repeatCount="indefinite"/>
-                                <animate attributeName="y2" values="160;140;160" dur="4s" repeatCount="indefinite"/>
-                            </line>
-                            <line x1="260" y1="40" x2="40" y2="160">
-                                <animate attributeName="x1" values="260;240;260" dur="4s" repeatCount="indefinite"/>
-                                <animate attributeName="y1" values="40;60;40" dur="4s" repeatCount="indefinite"/>
-                            </line>
-                        </g>
+                    <!-- Vulnerability Nodes -->
+                    <g id="vulnerabilityNodes">
+                        <circle cx="150" cy="30" r="5" fill="#FF5F6D">
+                        <animate attributeName="r" values="5;7;5" dur="2s" repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="230" cy="100" r="5" fill="#FFC371">
+                        <animate attributeName="r" values="5;7;5" dur="2.5s" repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="190" cy="170" r="5" fill="#F77E21">
+                        <animate attributeName="r" values="5;7;5" dur="3s" repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="110" cy="170" r="5" fill="#1CDCE8">
+                        <animate attributeName="r" values="5;7;5" dur="2.7s" repeatCount="indefinite"/>
+                        </circle>
+                        <circle cx="70" cy="100" r="5" fill="#6E44FF">
+                        <animate attributeName="r" values="5;7;5" dur="2.2s" repeatCount="indefinite"/>
+                        </circle>
+                    </g>
 
-                        <!-- LOXS Text -->
-                        <g transform="translate(150,100)">
-                            <!-- Text Shadow -->
-                            <text x="0" y="0" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#1CDCE8" text-anchor="middle" filter="url(#neonGlow)" opacity="0.5">LOXS</text>
-                            
-                            <!-- Main Text -->
-                            <text x="0" y="0" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="url(#textGradient)" text-anchor="middle" filter="url(#neonGlow)">LOXS</text>
-                            
-                            <!-- Animated Underline -->
-                            <path d="M-60,10 Q0,20 60,10" stroke="url(#textGradient)" stroke-width="4" fill="none" filter="url(#neonGlow)">
-                                <animate attributeName="d" 
-                                        values="M-60,10 Q0,20 60,10;M-60,15 Q0,25 60,15;M-60,10 Q0,20 60,10" 
-                                        dur="3s" 
-                                        repeatCount="indefinite"/>
-                            </path>
-                        </g>
+                    <!-- Connecting Lines -->
+                    <g stroke="#1CDCE8" stroke-width="1" opacity="0.6">
+                        <line x1="150" y1="30" x2="230" y2="100">
+                        <animate attributeName="opacity" values="0.6;0.2;0.6" dur="3s" repeatCount="indefinite"/>
+                        </line>
+                        <line x1="230" y1="100" x2="190" y2="170">
+                        <animate attributeName="opacity" values="0.6;0.2;0.6" dur="3.5s" repeatCount="indefinite"/>
+                        </line>
+                        <line x1="190" y1="170" x2="110" y2="170">
+                        <animate attributeName="opacity" values="0.6;0.2;0.6" dur="4s" repeatCount="indefinite"/>
+                        </line>
+                        <line x1="110" y1="170" x2="70" y2="100">
+                        <animate attributeName="opacity" values="0.6;0.2;0.6" dur="3.7s" repeatCount="indefinite"/>
+                        </line>
+                        <line x1="70" y1="100" x2="150" y2="30">
+                        <animate attributeName="opacity" values="0.6;0.2;0.6" dur="3.2s" repeatCount="indefinite"/>
+                        </line>
+                    </g>
+
+                    <!-- LOXS Text -->
+                    <g transform="translate(150,100)">
+                        <text x="0" y="5" font-family="Arial, sans-serif" font-size="40" font-weight="bold" fill="url(#textGradient)" text-anchor="middle">LOXS</text>
+                    </g>
                     </svg>
                 </div>
                 <h1 class="animated-text" data-text="Loxs Security Scan Report">Loxs Security Scan Report</h1>
