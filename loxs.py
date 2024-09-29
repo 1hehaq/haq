@@ -144,13 +144,13 @@ try:
         print(Color.RED + "\n\nSession Off..\n")
         exit()
         
-    # def load_telegram_credentials():
-    #     global TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
+    def load_telegram_credentials():
+        global TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID
         
-    #     if TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID:
-    #         return "Loaded saved Telegram credentials."
-    #     else:
-    #         return "No saved Telegram credentials found."
+        if TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID:
+            return ""
+        else:
+            return ""
         
 
     def save_telegram_credentials(bot_token, chat_id):
