@@ -48,7 +48,7 @@
 
 | Language                          | Packages                                                                    |
 |-----------------------------------|-----------------------------------------------------------------------------|
-| ***Python***| `Python 3.x` `webdriver_manager` `selenium` `aiohttp` `beautifulsoup4` `colorama` `rich` `requests` `gitpython` `prompt_toolkit` `pyyaml` `Flask` `html` `python-telegram-bot`|
+| ***Python***| `Python 3.x` `webdriver_manager` `selenium` `aiohttp` `beautifulsoup4` `colorama` `rich` `requests` `gitpython` `prompt_toolkit` `pyyaml` `Flask`|
 
 <br>
 <hr>
